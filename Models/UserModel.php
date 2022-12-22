@@ -1,8 +1,8 @@
 <?php
 
 require_once("Config.php");
-require_once("../Model/Entity/UserEntity.php");
-class Model{
+require_once("../Models/Entity/UserEntity.php");
+class UserModel{
 	private $conn;
 
 	public function getConn(){

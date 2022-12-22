@@ -17,6 +17,8 @@
       $this->lastActiveDate = $lastActiveDate;
 			$this->phoneNumber = $phoneNumber;
 		}
+
+		// get functions
     public function getUserID(){
       return $this->id;
     }
@@ -38,6 +40,30 @@
     public function getPhoneNumber(){
       return $this->phoneNumber;
     }
+
+		//set functions
+		public function setId($id){
+			$this->id = $id;
+		}
+		public function setUserName($userName){
+			$this->userName = $userName;
+		}
+		public function setUserEmail($email){
+			$this->email = $email;
+		}
+		public function setUserPassword($password){
+			$this->password = $password;
+		}
+		public function setIsAdmin($isAdmin){
+			$this->isAdmin = $isAdmin;
+		}
+		public function setLastActiveDate($lastActiveDate){
+			$this->lastActiveDate = $lastActiveDate;
+		}
+		public function setUserPhoneNumber($phoneNumber){
+			$this->phoneNumber = $phoneNumber;
+		}
+
 
 	}
 ?>

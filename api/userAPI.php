@@ -1,8 +1,8 @@
 <?php
 
-require_once("../Model/Model.php");
+require_once("../Models/UserModel.php");
 
-$model = new Model();
+$model = new UserModel();
 
 $all_Users = $model->getAllusers();
 $userObjectArray = array();
