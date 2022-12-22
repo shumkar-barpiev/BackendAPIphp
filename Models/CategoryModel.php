@@ -27,6 +27,7 @@ class CategoryModel{
 			return "Connected succesfully!!!";
 	}
 
+// Getting all Categories
 	public function getAllcategories(){
 			$conf = new Config();
 
@@ -66,6 +67,55 @@ class CategoryModel{
 					  return $categories;
 		   }
 	}
+
+
+// Creating new category
+	public function insertCategory($categoryName, $categoryImageName){
+		$conf = new Config();
+
+		$this->conn = new mysqli(
+				$conf->getHost(),
+				$conf->getUserName(),
+				$conf->getUserPass(),
+				$conf->getDBName()
+			);
+			// Check connection
+			if ($this->conn->connect_error) {
+				$this->conn->close();
+				return "Connection failed";
+			}
+				// prepare and bind
+				$stmt = $this->conn->prepare("INSERT INTO category (categoryName, categoryImageName)
+				 VALUES (?, ?)");
+				$stmt->bind_param("ss", $cName, $cImageName);
+
+				// set parameters and execute
+				$cName = $categoryName;
+				$cImageName = $categoryImageName;
+
+				$stmt->execute();
+
+				$stmt->close();
+		$this->conn->close();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
