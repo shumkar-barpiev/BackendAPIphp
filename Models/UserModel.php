@@ -100,7 +100,7 @@ public function insertUser(
 			// prepare and bind
 			$stmt = $this->conn->prepare("INSERT INTO user (userName, email, password, isAdmin, lastActiveDate, phonenumber)
 			 VALUES (?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("sssdss", $uName, $eml, $pswd, $isAd, $ltActDt, $phNr);
+			$stmt->bind_param("sssiss", $uName, $eml, $pswd, $isAd, $ltActDt, $phNr);
 
 			// set parameters and execute
 			$uName = $userName;

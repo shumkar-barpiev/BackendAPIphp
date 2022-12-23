@@ -28,7 +28,7 @@ class ProductModel{
 	}
 
 // Get all products
-	public function getAllusers(){
+	public function getAllproducts(){
 			$conf = new Config();
 
 			$this->conn = new mysqli(
@@ -93,9 +93,9 @@ public function insertProduct(
 		}
 
 			// prepare and bind
-			$stmt = $this->conn->prepare("INSERT INTO user (userName, email, password, isAdmin, lastActiveDate, phonenumber)
-			 VALUES (?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("sssdss", $pName, $dscpn, $prc, $pImageName);
+			$stmt = $this->conn->prepare("INSERT INTO product (productName, description, price, productImageName)
+			 VALUES (?, ?, ?, ?)");
+			$stmt->bind_param("ssds", $pName, $dscpn, $prc, $pImageName);
 
 			// set parameters and execute
 			$pName = $productName;
