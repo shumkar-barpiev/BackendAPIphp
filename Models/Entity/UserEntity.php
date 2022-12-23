@@ -63,7 +63,5 @@
 		public function setUserPhoneNumber($phoneNumber){
 			$this->phoneNumber = $phoneNumber;
 		}
-
-
 	}
 ?>

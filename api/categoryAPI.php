@@ -45,7 +45,7 @@ switch ($requestMethod) {
         echo "delete";
         break;
     default:
-        $response = $this->notFoundResponse();
+        echo json_encode("Something wrong!!!");
         break;
 }
 
