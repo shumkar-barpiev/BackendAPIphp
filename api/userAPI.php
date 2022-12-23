@@ -29,16 +29,20 @@ switch ($requestMethod) {
     case 'POST':
 
         $json = file_get_contents('php://input');
-
         // Converts it into a PHP object
         $data = json_decode($json);
 
-        $categoryName = $data->categoryName;
-        $categoryImageName  = $data->categoryImageName;
+        $userName = $data->userName;
+        $email  = $data->email;
+        $password = $data->password;
+        $isAdmin  = $data->isAdmin;
+        $lastActiveDate = $data->lastActiveDate;
+        $phoneNumber  = $data->phoneNumber;
 
-        $model->insertCategory($categoryName, $categoryImageName);
 
-        echo json_encode("category Created succesfully!!!");
+        $model->insertUser($userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
+
+        echo json_encode("Your account created succesfully!!!");
         break;
     case 'PUT':
         echo "put";
@@ -47,7 +51,7 @@ switch ($requestMethod) {
         echo "delete";
         break;
     default:
-        $response = $this->notFoundResponse();
+        echo json_encode("Something wrong!!!");
         break;
 }
 

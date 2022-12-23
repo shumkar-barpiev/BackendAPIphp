@@ -27,6 +27,7 @@ class UserModel{
 			return "Connected succesfully!!!";
 	}
 
+// Get all users
 	public function getAllusers(){
 			$conf = new Config();
 
@@ -71,6 +72,48 @@ class UserModel{
 		   }
 	}
 
+
+//Craete user
+
+public function insertUser(
+	$userName,
+	$email,
+	$password,
+	$isAdmin,
+	$lastActiveDate,
+	$phoneNumber
+){
+	$conf = new Config();
+
+	$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+			// prepare and bind
+			$stmt = $this->conn->prepare("INSERT INTO user (userName, email, password, isAdmin, lastActiveDate, phonenumber)
+			 VALUES (?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("sssdss", $uName, $eml, $pswd, $isAd, $ltActDt, $phNr);
+
+			// set parameters and execute
+			$uName = $userName;
+			$eml = $email;
+			$pswd = $password;
+			$isAd = $isAdmin;
+			$ltActDt = $lastActiveDate;
+			$phNr = $phoneNumber;
+			$stmt->execute();
+
+			$stmt->close();
+	$this->conn->close();
+}
 
 }
  ?>
