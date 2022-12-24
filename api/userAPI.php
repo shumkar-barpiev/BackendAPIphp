@@ -1,5 +1,5 @@
 <?php
-
+header("Content-Type: application/json");
 require_once("../Models/UserModel.php");
 
 $model = new UserModel();
@@ -7,12 +7,10 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 switch ($requestMethod) {
     case 'GET':
-        $all_Users = $model->getAllusers();
+        $allUsers = $model->getAllusers();
         $userObjectArray = array();
 
-        header("Content-Type: application/json");
-
-        foreach ($all_Users as $user) {
+        foreach ($allUsers as $user) {
           $userObj = array(
             "id"=>$user->getUserID(),
             "userName"=>$user->getUserName(),
