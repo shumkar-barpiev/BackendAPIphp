@@ -28,52 +28,6 @@ class CommentModel{
 			return "Connected succesfully!!!";
 	}
 
-// Get all comments
-	public function getAllComments(){
-			$conf = new Config();
-
-			$this->conn = new mysqli(
-					$conf->getHost(),
-					$conf->getUserName(),
-					$conf->getUserPass(),
-					$conf->getDBName()
-				);
-				// Check connection
-				if ($this->conn->connect_error) {
-					$this->conn->close();
-				  return "Connection failed";
-				}
-
-				$stmt = $this->conn -> stmt_init();
-
-				if ($stmt -> prepare("SELECT * FROM `comment`")) {
-					  // Execute query
-					  $stmt -> execute();
-
-					  // Bind result variables
-					  $stmt -> bind_result($id, $userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
-
-						$users = array();
-					  // Fetch value
-						while ($stmt->fetch()) {
-							$users[] = new User(
-								$id,
-		            $userName,
-		            $email,
-		            $password,
-		            $isAdmin,
-                $lastActiveDate,
-                $phoneNumber);
-						}
-					  // Close statement
-					  $stmt -> close();
-						$this->conn->close();
-
-					  return $users;
-		   }
-	}
-
-
 //get product comments
 public function getProductComment($productID){
 	$conf = new Config();
@@ -116,6 +70,47 @@ public function getProductComment($productID){
 
       return $comments;
 }
+
+
+//Save comment of customer
+public function saveComment(
+	$customerID,
+	$productID,
+	$commentBody,
+	$dateOfComment
+){
+	$conf = new Config();
+
+	$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+			// prepare and bind
+			$stmt = $this->conn->prepare("INSERT INTO comment (customerId, productId, commentBody, dateOfComment)
+			 VALUES (?, ?, ?, ?)");
+			$stmt->bind_param("iiss", $cID, $pID, $cmBody, $date);
+
+			// set parameters and execute
+			$cID = $customerID;
+			$pID = $productID;
+			$cmBody = $commentBody;
+			$date = $dateOfComment;
+			$stmt->execute();
+
+			$stmt->close();
+	$this->conn->close();
+}
+
+
+
 
 }
  ?>

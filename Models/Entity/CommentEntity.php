@@ -15,7 +15,7 @@
 		}
 
     // get functions
-    public function getProductID(){
+    public function getId(){
       return $this->id;
     }
     public function getCustomerId(){
