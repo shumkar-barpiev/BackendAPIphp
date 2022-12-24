@@ -37,22 +37,8 @@ switch ($requestMethod) {
 
         echo json_encode("Your product created succesfully!!!");
         break;
-    case 'PUT':
-        echo "put";
-        break;
-    case 'DELETE':
-        echo "delete";
-        break;
     default:
         echo json_encode("Something wrong!!!");
         break;
 }
-
-
-
-
-
-
-
-
  ?>
