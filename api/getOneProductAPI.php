@@ -11,8 +11,8 @@ switch ($requestMethod) {
         $json = file_get_contents('php://input');
         // Converts it into a PHP object
         $data = json_decode($json);
-        // $id = $data->productId;
-        $id = $_POST['productId'];
+        $id = $data->productId;
+        // $id = $_POST['productId'];
 
         $product = $model->getProductById($id);
 

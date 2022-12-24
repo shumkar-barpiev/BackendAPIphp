@@ -108,7 +108,7 @@ public function insertProduct(
 	$this->conn->close();
 }
 
-//get product by idea
+//get product by id
 public function getProductById($productId){
 	$conf = new Config();
 
@@ -149,10 +149,51 @@ public function getProductById($productId){
 			$message = "Ooopps! Something gone wrong!";
 			return $message;
 	}
-
 }
 
 
+// delete the product
+public function deleteProduct($productId){
+	$conf = new Config();
+
+	$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+	$stmt = $this->conn -> stmt_init();
+
+	if ($stmt -> prepare("DELETE FROM product WHERE product.id = ?")) {
+
+		$stmt->bind_param('d', $productId);
+
+		// Execute query
+		$stmt -> execute();
+
+		if($stmt->error){
+			$message = "Ooopps! Something gone wrong!";
+		}
+		else{
+			$message = $stmt->affected_rows;
+		}
+		// Close statement
+		$stmt -> close();
+		$this->conn->close();
+
+		return $message;
+	}
+	else{
+		$message = "Ooopps! Something gone wrong!";
+		return $message;
+	}
+}
 
 
 
