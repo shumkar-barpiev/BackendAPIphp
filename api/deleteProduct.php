@@ -11,8 +11,8 @@ switch ($requestMethod) {
         // Converts it into a PHP object
         $data = json_decode($json);
 
-        // $id = $data->productId;
-        $id = $_POST['productId'];
+        $id = $data->productId;
+        // $id = $_POST['productId'];
 
 
         $model->deleteProduct($id);
