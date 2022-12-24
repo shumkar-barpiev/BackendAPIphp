@@ -9,11 +9,10 @@ switch ($requestMethod) {
     case 'POST':
         $json = file_get_contents('php://input');
         $data = json_decode($json);
-        $commentProductId = $data->commentProductId;
-        // $id = $_POST['commentProductId'];
+        $productId = $data->productId;
+        // $productId = $_POST['productId'];
 
-        if ($commentProductId){
-          $allProductComments = $model->getProductComment($id);
+          $allProductComments = $model->getProductComment($productId);
           $commentObjectArray = array();
 
           foreach ($allProductComments as $comment) {
@@ -27,19 +26,6 @@ switch ($requestMethod) {
             array_push($commentObjectArray,$commentObj);
           }
           echo(json_encode($commentObjectArray));
-        }else{
-          $customerID = $data->customerID;
-          $productID  = $data->productID;
-          $commentBody = $data->commentBody;
-          $dateOfComment  = $data->dateOfComment;
-
-          // $customerID = $_POST['customerID'];
-          // $productID  = $_POST['productID'];
-          // $commentBody = $_POST['commentBody'];
-          // $dateOfComment  = $_POST['dateOfComment'];
-
-          $model->saveComment($customerID,	$productID,	$commentBody,	$dateOfComment);
-        }
 
         break;
     default:
