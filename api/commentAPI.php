@@ -47,11 +47,4 @@ switch ($requestMethod) {
         break;
 }
 
-
-
-
-
-
-
-
  ?>

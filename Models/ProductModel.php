@@ -107,5 +107,54 @@ public function insertProduct(
 			$stmt->close();
 	$this->conn->close();
 }
+
+//get product by idea
+public function getProductById($productId){
+	$conf = new Config();
+
+	$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+		$stmt = $this->conn -> stmt_init();
+
+		if ($stmt -> prepare("SELECT * FROM `product` WHERE `id` = ?")) {
+			$stmt->bind_param('d', $productId);
+
+			// Execute query
+			$stmt -> execute();
+
+			// Bind result variables
+			$stmt -> bind_result($id, $productName, $description, $price, $productImageName);
+
+			$stmt->fetch();
+
+			$product = new Product($id, $productName, $description, $price, $productImageName);
+
+			// Close statement
+			$stmt -> close();
+			$this->conn->close();
+
+			return $product;
+		}
+		else{
+			$message = "Ooopps! Something gone wrong!";
+			return $message;
+	}
+
+}
+
+
+
+
+
 }
  ?>
