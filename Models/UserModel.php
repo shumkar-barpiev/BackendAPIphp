@@ -72,9 +72,55 @@ class UserModel{
 		   }
 	}
 
+	// Get one user
+	public function getOneUser($email, $password){
+			$conf = new Config();
+
+			$this->conn = new mysqli(
+					$conf->getHost(),
+					$conf->getUserName(),
+					$conf->getUserPass(),
+					$conf->getDBName()
+				);
+			// Check connection
+			if ($this->conn->connect_error) {
+				$this->conn->close();
+			  return "Connection failed";
+			}
+
+			$stmt = $this->conn -> stmt_init();
+
+			$stmt -> prepare("SELECT * FROM user as users WHERE users.email = ? AND users.password = ?");
+			$stmt->bind_param("ss", $eml, $pswd);
+
+			$eml = $email;
+			$pswd = $password;
+		  // Execute query
+		  $stmt -> execute();
+
+		  // Bind result variables
+		  $stmt -> bind_result($id, $userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
+			$users = array();
+			// Fetch value
+			while ($stmt->fetch()) {
+				$users[] = new User(
+					$id,
+					$userName,
+					$email,
+					$password,
+					$isAdmin,
+					$lastActiveDate,
+					$phoneNumber);
+			}
+			// Close statement
+			$stmt -> close();
+			$this->conn->close();
+
+			return $users;
+	}
+
 
 //Craete user
-
 public function insertUser(
 	$userName,
 	$email,

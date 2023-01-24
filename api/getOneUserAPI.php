@@ -13,8 +13,22 @@ switch ($requestMethod) {
 
         $email  = $data->email;
         $password = $data->password;
+        $allUsers = $model->getOneUser($email, $password);
+        $userObjectArray = array();
 
-        $user = $model->getOneUser($email, $password);
+        foreach ($allUsers as $user) {
+          $userObj = array(
+            "id"=>$user->getUserID(),
+            "userName"=>$user->getUserName(),
+            "email"=>$user->getEmail(),
+            "password"=>$user->getPassword(),
+            "isAdmin"=>$user->getIsAdmin(),
+            "lastActiveDate"=>$user->getLastActiveDate(),
+            "phoneNumber"=>$user->getPhoneNumber()
+          );
+          array_push($userObjectArray,$userObj);
+        }
+        echo(json_encode($userObjectArray));
 
         break;
     default:
