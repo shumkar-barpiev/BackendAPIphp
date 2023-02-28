@@ -18,7 +18,8 @@ switch ($requestMethod) {
           $categoryObj = array(
             "id"=>$category->getCategoryID(),
             "categoryName"=>$category->getCategoryName(),
-            "categoryImageName"=>$category->getCategoryImageName()
+            "categoryImageName"=>$category->getCategoryImageName(),
+            "categoryDescription"=>$category->getcategoryDescription()
           );
           array_push($categoryObjectArray,$categoryObj);
         }
@@ -31,8 +32,9 @@ switch ($requestMethod) {
 
         $categoryName = $data->categoryName;
         $categoryImageName  = $data->categoryImageName;
+        $categoryDescription  = $data->categoryDescription;
 
-        $model->insertCategory($categoryName, $categoryImageName);
+        $model->insertCategory($categoryName, $categoryImageName, $categoryDescription);
 
         echo json_encode("category Created succesfully!!!");
         break;
