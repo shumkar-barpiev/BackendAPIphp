@@ -50,7 +50,7 @@ class CategoryModel{
 					  $stmt -> execute();
 
 					  // Bind result variables
-					  $stmt -> bind_result($id, $categoryName, $categoryImageName);
+					  $stmt -> bind_result($id, $categoryName, $categoryImageName, $categoryDescription);
 
 						$categories = array();
 					  // Fetch value
@@ -58,7 +58,8 @@ class CategoryModel{
 							$categories[] = new Category(
 								$id,
 		            $categoryName,
-		            $categoryImageName);
+		            $categoryImageName,
+								$categoryDescription);
 						}
 					  // Close statement
 					  $stmt -> close();
@@ -70,7 +71,7 @@ class CategoryModel{
 
 
 // Creating new category
-	public function insertCategory($categoryName, $categoryImageName){
+	public function insertCategory($categoryName, $categoryImageName, $categoryDescription){
 		$conf = new Config();
 
 		$this->conn = new mysqli(
@@ -85,13 +86,14 @@ class CategoryModel{
 				return "Connection failed";
 			}
 				// prepare and bind
-				$stmt = $this->conn->prepare("INSERT INTO category (categoryName, categoryImageName)
-				 VALUES (?, ?)");
-				$stmt->bind_param("ss", $cName, $cImageName);
+				$stmt = $this->conn->prepare("INSERT INTO category (categoryName, categoryImageName, categoryDescription)
+				 VALUES (?, ?, ?)");
+				$stmt->bind_param("sss", $cName, $cImageName, $cDescription);
 
 				// set parameters and execute
 				$cName = $categoryName;
 				$cImageName = $categoryImageName;
+				$cDescription = $categoryDescription;
 
 				$stmt->execute();
 
