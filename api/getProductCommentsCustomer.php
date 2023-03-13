@@ -13,13 +13,15 @@ switch ($requestMethod) {
         // $productId = $_POST['productId'];
 
           $allProductComments = $model->getProductCommentCustomer($productId);
+
           $commentObjectArray = array();
 
           foreach ($allProductComments as $comment) {
             $commentObj = array(
-              "customerName"=>$comment->getCustomerName(),
+              "userName"=>$comment->getCustomerName(),
+              "userImageName"=>$comment->getCustomerImageName(),
               "commentBody"=>$comment->getCommentBody(),
-              "dateOfComment"=>$comment->getDateOfComment()
+              "date"=>$comment->getDateOfComment()
             );
             array_push($commentObjectArray,$commentObj);
           }

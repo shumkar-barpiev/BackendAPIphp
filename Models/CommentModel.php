@@ -28,8 +28,8 @@ class CommentModel{
 			return "Connected succesfully!!!";
 	}
 
-//get product comments for admin
-public function getProductComment($productID){
+//get product comments for customer
+public function getProductCommentCustomer($productID){
 	$conf = new Config();
 
 	$this->conn = new mysqli(
@@ -45,22 +45,21 @@ public function getProductComment($productID){
 		}
 
 			// prepare and bind
-			$stmt = $this->conn->prepare("SELECT user.userName,product.productName, product.productImageName,
- comment.commentBody, comment.dateOfComment FROM comment, user, product  WHERE comment.productId = ? AND user.userID = comment.customerId AND product.id = comment.productId;");
+			$stmt = $this->conn->prepare("SELECT user.userName,user.userImageName,
+ comment.commentBody, comment.dateOfComment FROM comment, user, product  WHERE comment.productId = ? AND user.id = comment.customerId AND product.id = comment.productId;");
 			$stmt->bind_param("i", $productID);
 			$stmt->execute();
 
 
       // Bind result variables
-      $stmt -> bind_result($userName, $productName, $productImageName, $commentBody, $dateOfComment);
+      $stmt -> bind_result($userName, $customerImageName, $commentBody, $dateOfComment);
 
       $comments = array();
       // Fetch value
       while ($stmt->fetch()) {
         $comments[] = new CustomerComment(
           $userName,
-          $productName,
-          $productImageName,
+          $customerImageName,
           $commentBody,
           $dateOfComment);
       }
@@ -73,8 +72,8 @@ public function getProductComment($productID){
 
 
 
-//get product comments for customer
-public function getProductCommentCustomer($productID){
+//get product comments for admin
+public function getProductCommentAdmin($productID){
 	$conf = new Config();
 
 	$this->conn = new mysqli(
