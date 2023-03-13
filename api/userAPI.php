@@ -18,7 +18,8 @@ switch ($requestMethod) {
             "password"=>$user->getPassword(),
             "isAdmin"=>$user->getIsAdmin(),
             "lastActiveDate"=>$user->getLastActiveDate(),
-            "phoneNumber"=>$user->getPhoneNumber()
+            "phoneNumber"=>$user->getPhoneNumber(),
+            "userImageName"=>$user->getUserImageName(),
           );
           array_push($userObjectArray,$userObj);
         }
@@ -31,6 +32,7 @@ switch ($requestMethod) {
         $data = json_decode($json);
 
         $userName = $data->userName;
+        $userImageName = $data->userImageName;
         $email  = $data->email;
         $password = $data->password;
         $isAdmin  = $data->isAdmin;
@@ -38,15 +40,9 @@ switch ($requestMethod) {
         $phoneNumber  = $data->phoneNumber;
 
 
-        $model->insertUser($userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
+        $model->insertUser($userName, $userImageName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
 
         echo json_encode("Your account created succesfully!!!");
-        break;
-    case 'PUT':
-        echo "put";
-        break;
-    case 'DELETE':
-        echo "delete";
         break;
     default:
         echo json_encode("Something wrong!!!");

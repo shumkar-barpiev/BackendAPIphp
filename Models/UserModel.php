@@ -50,7 +50,7 @@ class UserModel{
 					  $stmt -> execute();
 
 					  // Bind result variables
-					  $stmt -> bind_result($id, $userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
+					  $stmt -> bind_result($id, $userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber,$userImageName);
 
 						$users = array();
 					  // Fetch value
@@ -62,7 +62,8 @@ class UserModel{
 		            $password,
 		            $isAdmin,
                 $lastActiveDate,
-                $phoneNumber);
+                $phoneNumber,
+								$userImageName);
 						}
 					  // Close statement
 					  $stmt -> close();
@@ -99,7 +100,7 @@ class UserModel{
 		  $stmt -> execute();
 
 		  // Bind result variables
-		  $stmt -> bind_result($id, $userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber);
+		  $stmt -> bind_result($id, $userName, $email, $password, $isAdmin, $lastActiveDate, $phoneNumber, $userImageName);
 			$users = array();
 			// Fetch value
 			while ($stmt->fetch()) {
@@ -110,7 +111,8 @@ class UserModel{
 					$password,
 					$isAdmin,
 					$lastActiveDate,
-					$phoneNumber);
+					$phoneNumber,
+					$userImageName);
 			}
 			// Close statement
 			$stmt -> close();
@@ -123,6 +125,7 @@ class UserModel{
 //Craete user
 public function insertUser(
 	$userName,
+	$userImageName,
 	$email,
 	$password,
 	$isAdmin,
@@ -144,12 +147,13 @@ public function insertUser(
 		}
 
 			// prepare and bind
-			$stmt = $this->conn->prepare("INSERT INTO user (userName, email, password, isAdmin, lastActiveDate, phonenumber)
-			 VALUES (?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("sssiss", $uName, $eml, $pswd, $isAd, $ltActDt, $phNr);
+			$stmt = $this->conn->prepare("INSERT INTO user (userName, email, password, isAdmin, lastActiveDate, phonenumber, userImageName)
+			 VALUES (?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("sssisss", $uName, $eml, $pswd, $isAd, $ltActDt, $phNr, $uImageName);
 
 			// set parameters and execute
 			$uName = $userName;
+			$uImageName = $userImageName;
 			$eml = $email;
 			$pswd = $password;
 			$isAd = $isAdmin;

@@ -28,7 +28,7 @@ class CommentModel{
 			return "Connected succesfully!!!";
 	}
 
-//get product comments
+//get product comments for admin
 public function getProductComment($productID){
 	$conf = new Config();
 
@@ -71,6 +71,48 @@ public function getProductComment($productID){
       return $comments;
 }
 
+
+
+//get product comments for customer
+public function getProductCommentCustomer($productID){
+	$conf = new Config();
+
+	$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+			// prepare and bind
+			$stmt = $this->conn->prepare("SELECT user.userName,
+ comment.commentBody, comment.dateOfComment FROM comment, user, product  WHERE comment.productId = ? AND user.userID = comment.customerId AND product.id = comment.productId;");
+			$stmt->bind_param("i", $productID);
+			$stmt->execute();
+
+
+      // Bind result variables
+      $stmt -> bind_result($userName, $commentBody, $dateOfComment);
+
+      $comments = array();
+      // Fetch value
+      while ($stmt->fetch()) {
+        $comments[] = new CustomerComment(
+          $userName,
+          $commentBody,
+          $dateOfComment);
+      }
+      // Close statement
+      $stmt -> close();
+      $this->conn->close();
+
+      return $comments;
+}
 
 //Save comment of customer
 public function saveComment(
