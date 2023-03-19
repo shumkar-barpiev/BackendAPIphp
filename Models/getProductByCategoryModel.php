@@ -43,7 +43,7 @@ class ProductModel{
 				  return "Connection failed";
 				}
 
-			
+
         // prepare and bind
         $stmt = $this->conn->prepare("SELECT * FROM product WHERE product.id IN (SELECT productID FROM categoryProducts
  WHERE categoryProducts.categoryID = ?);");
