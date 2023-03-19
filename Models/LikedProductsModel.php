@@ -104,6 +104,35 @@ class LikedProductsModel{
 		$this->conn->close();
 	}
 
+  // deleting the product from like products table
+  	public function deleteLikedProducts($customerId, $productId){
+  		$conf = new Config();
+
+  		$this->conn = new mysqli(
+  				$conf->getHost(),
+  				$conf->getUserName(),
+  				$conf->getUserPass(),
+  				$conf->getDBName()
+  			);
+  			// Check connection
+  			if ($this->conn->connect_error) {
+  				$this->conn->close();
+  				return "Connection failed";
+  			}
+  				// prepare and bind
+  				$stmt = $this->conn->prepare("DELETE from likedProducts WHERE customerId = ? AND productId = ?;");
+  				$stmt->bind_param("ii", $cId, $pId);
+
+  				// set parameters and execute
+  				$cId = $customerId;
+  				$pId = $productId;
+
+  				$stmt->execute();
+
+  				$stmt->close();
+  		$this->conn->close();
+  	}
+
 
 
 
