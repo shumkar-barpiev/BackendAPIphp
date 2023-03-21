@@ -37,6 +37,17 @@ switch ($requestMethod) {
 
         echo json_encode("Your product created succesfully!!!");
         break;
+    case 'DELETE':
+        $json = file_get_contents('php://input');
+        // Converts it into a PHP object
+        $data = json_decode($json);
+
+        $productID = $data->productId;
+
+        $model->deleteProduct($productID);
+
+        echo json_encode("Your product deleted succesfully!!!");
+        break;
     default:
         echo json_encode("Something wrong!!!");
         break;

@@ -172,7 +172,7 @@ public function deleteProduct($productId){
 
 	if ($stmt -> prepare("DELETE FROM product WHERE product.id = ?")) {
 
-		$stmt->bind_param('d', $productId);
+		$stmt->bind_param('i', $productId);
 
 		// Execute query
 		$stmt -> execute();
