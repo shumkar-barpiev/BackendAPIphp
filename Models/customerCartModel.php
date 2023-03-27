@@ -60,6 +60,78 @@ class CartModel{
 	}
 
 
+	// Creating new cart
+		public function insertCartItem($cartId, $productId){
+			$conf = new Config();
+
+			$this->conn = new mysqli(
+					$conf->getHost(),
+					$conf->getUserName(),
+					$conf->getUserPass(),
+					$conf->getDBName()
+				);
+				// Check connection
+				if ($this->conn->connect_error) {
+					$this->conn->close();
+					return "Connection failed";
+				}
+					// prepare and bind
+					$stmt = $this->conn->prepare("INSERT INTO cart_item (cartId, productId)
+					 VALUES (?, ?)");
+					$stmt->bind_param("ii", $cId, $pId);
+
+					// set parameters and execute
+
+					$cId = $cartId;
+					$pId = $productId;
+
+					$stmt->execute();
+
+					$stmt->close();
+			$this->conn->close();
+		}
+
+	// Get all Carts
+		public function getAllCarts(){
+				$conf = new Config();
+
+				$this->conn = new mysqli(
+						$conf->getHost(),
+						$conf->getUserName(),
+						$conf->getUserPass(),
+						$conf->getDBName()
+					);
+					// Check connection
+					if ($this->conn->connect_error) {
+						$this->conn->close();
+						return "Connection failed";
+					}
+
+
+					// prepare and bind
+					$stmt = $this->conn->prepare("SELECT * FROM cart");
+
+					$stmt->execute();
+
+					// Bind result variables
+					$stmt -> bind_result($id, $cartName, $customerId);
+
+					$carts = array();
+					// Fetch value
+					while ($stmt->fetch()) {
+						$carts[] = new Cart(
+							$id,
+							$cartName,
+							$customerId);
+					}
+					// Close statement
+					$stmt -> close();
+					$this->conn->close();
+
+					return $carts;
+		}
+
+
 
   // Get Customer Cart
     public function getCart($customerId){

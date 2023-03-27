@@ -6,6 +6,22 @@ $model = new CartModel();
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 switch ($requestMethod) {
+    case 'GET':
+      $customerCarts = $model->getAllCarts();
+      $cartObjectArray = array();
+
+      foreach ($customerCarts as $cart) {
+        $cartObj = array(
+          "id"=>$cart->getCartID(),
+          "cartName"=>$cart->getCartName(),
+          "customerId"=>$cart->getCustomerId()
+        );
+        array_push($cartObjectArray,$cartObj);
+      }
+      echo(json_encode($cartObjectArray));
+
+      break;
+
       case 'POST':
         $json = file_get_contents('php://input');
         // Converts it into a PHP object
