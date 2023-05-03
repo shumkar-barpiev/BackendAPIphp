@@ -165,5 +165,44 @@ public function insertUser(
 	$this->conn->close();
 }
 
+
+
+
+
+//Update user
+	public function updateUser(
+		$userId,
+		$userName,
+		$email,
+		$phoneNumber
+	){
+		$conf = new Config();
+
+		$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+		// prepare and bind
+		$stmt = $this->conn->prepare("UPDATE user SET userName = ?, email= ?, phoneNumber = ? WHERE id = ?;");
+		$stmt->bind_param("sssi",$uName, $eml, $phNr, $uId);
+
+		// set parameters and execute
+		$uId = $userId;
+		$uName = $userName;
+		$eml = $email;
+		$phNr = $phoneNumber;
+		$stmt->execute();
+
+		$stmt->close();
+		$this->conn->close();
+	}
 }
  ?>

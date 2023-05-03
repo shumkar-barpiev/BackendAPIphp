@@ -108,6 +108,42 @@ public function insertProduct(
 	$this->conn->close();
 }
 
+
+
+//Insert product category
+	public function insertProductCategory(
+		$productId,
+		$categoryId
+	){
+		$conf = new Config();
+
+		$this->conn = new mysqli(
+			$conf->getHost(),
+			$conf->getUserName(),
+			$conf->getUserPass(),
+			$conf->getDBName()
+		);
+		// Check connection
+		if ($this->conn->connect_error) {
+			$this->conn->close();
+			return "Connection failed";
+		}
+
+		// prepare and bind
+		$stmt = $this->conn->prepare("INSERT INTO categoryProducts (categoryID, productID)
+			 VALUES (?, ?)");
+		$stmt->bind_param("ii",  $cID, $pID);
+
+		// set parameters and execute
+		$cID = $categoryId;
+		$pID = $productId;
+
+		$stmt->execute();
+
+		$stmt->close();
+		$this->conn->close();
+	}
+
 //get product by id
 public function getProductById($productId){
 	$conf = new Config();
