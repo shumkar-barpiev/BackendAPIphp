@@ -1,7 +1,7 @@
 <?php
 
 require_once("Config.php");
-require_once("../Models/Entity/UserEntity.php");
+require_once("../Models/Entity/OrderEntity.php");
 class OrderModel{
     private $conn;
 
@@ -46,6 +46,57 @@ class OrderModel{
         $stmt = $this->conn -> stmt_init();
 
         if ($stmt -> prepare("SELECT * FROM `orders`")) {
+            // Execute query
+            $stmt -> execute();
+
+            // Bind result variables
+            $stmt -> bind_result($orderId, $orderName, $orderDate, $orderDescription, $customerId, $customerName, $address, $phoneNumber, $totalSum, $orderStatus);
+
+            $orders = array();
+            // Fetch value
+            while ($stmt->fetch()) {
+                $orders[] = new Order(
+                    $orderId,
+                    $orderName,
+                    $orderDate,
+                    $orderDescription,
+                    $customerId,
+                    $customerName,
+                    $address,
+                    $phoneNumber,
+                    $totalSum,
+                    $orderStatus);
+            }
+            // Close statement
+            $stmt -> close();
+            $this->conn->close();
+
+            return $orders;
+        }
+    }
+
+
+// Get customer orders
+    public function getCustomerOrders($customId){
+        $conf = new Config();
+
+        $this->conn = new mysqli(
+            $conf->getHost(),
+            $conf->getUserName(),
+            $conf->getUserPass(),
+            $conf->getDBName()
+        );
+        // Check connection
+        if ($this->conn->connect_error) {
+            $this->conn->close();
+            return "Connection failed";
+        }
+
+        $stmt = $this->conn -> stmt_init();
+
+        if ($stmt -> prepare("SELECT * FROM `orders` WHERE customerId = ?;")) {
+            $stmt->bind_param("i",  $customId);
+
             // Execute query
             $stmt -> execute();
 
